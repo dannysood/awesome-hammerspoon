@@ -371,3 +371,91 @@ end
 ----------------------------------------------------------------------------------------------------
 -- Finally we initialize ModalMgr supervisor
 spoon.ModalMgr.supervisor:enter()
+
+
+
+
+
+-----------
+-- personal changes
+
+
+function isMonitorMac()
+    local win = hs.window.focusedWindow()
+    return string.match(win:screen(), "Color LCD")
+end
+function isMonitorAcer()
+    local win = hs.window.focusedWindow()
+    print(win:screen())
+    print(string.match(tostring(win:screen()), "Display") ~= nil)
+    return string.match(tostring(win:screen()), "Display") ~= nil
+end
+function isMonitoriPad()
+    local win = hs.window.focusedWindow()
+    return string.match(win:screen(), "(un-named screen)")
+end
+
+-- move application to left 1/3
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+    f.x = max.x
+    f.y = max.y
+    f.w = max.w / (isMonitorAcer() and 2 or 3)
+    f.h = max.h
+    win:setFrame(f)
+end)
+
+-- [[ move application to right]]
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+    f.x = max.x + max.w / (isMonitorAcer() and 2 or 3)
+    f.y = max.y
+    f.w = (isMonitorAcer() and 1 or 2) * max.w / (isMonitorAcer() and 2 or 3)
+    f.h = max.h
+    win:setFrame(f)
+end)
+
+-- make app max size
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "M", function()
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+
+    f.x = max.x
+    f.y = max.y
+    f.w = max.w
+    f.h = max.h
+    win:setFrame(f)
+end)
+
+-- next screen
+hs.hotkey.bind({'alt', 'ctrl', 'cmd'}, 'n', function()
+    -- get the focused window
+    local win = hs.window.focusedWindow()
+    -- get the screen where the focused window is displayed, a.k.a. current screen
+    local screen = win:screen()
+    print("1111111", isMonitorAcer())
+    -- compute the unitRect of the focused window relative to the current screen
+    -- and move the window to the next screen setting the same unitRect
+    win:move(win:frame():toUnitRect(screen:frame()), screen:next(), true, 0)
+end)
+
+-- previous screen
+
+hs.hotkey.bind({'alt', 'ctrl', 'cmd'}, 'p', function()
+    -- get the focused window
+    local win = hs.window.focusedWindow()
+    -- get the screen where the focused window is displayed, a.k.a. current screen
+    local screen = win:screen()
+    -- compute the unitRect of the focused window relative to the current screen
+    -- and move the window to the next screen setting the same unitRect
+    win:move(win:frame():toUnitRect(screen:frame()), screen:previous(), true, 0)
+end)
+
