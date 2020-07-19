@@ -38,10 +38,10 @@ if not hspoon_list then
     hspoon_list = {
         "AClock",
         "BingDaily",
-        "CircleClock",
+        -- "CircleClock",
         "ClipShow",
         "CountDown",
-        "HCalendar",
+        -- "HCalendar",
         "HSaria2",
         "HSearch",
         "SpeedMenu",
