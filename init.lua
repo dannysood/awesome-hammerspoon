@@ -384,11 +384,11 @@ function isMonitorMac()
     local win = hs.window.focusedWindow()
     return string.match(win:screen(), "Color LCD")
 end
-function isMonitorAcer()
+function isMonitorS27R65()
     local win = hs.window.focusedWindow()
     print(win:screen())
-    print(string.match(tostring(win:screen()), "Display") ~= nil)
-    return string.match(tostring(win:screen()), "Display") ~= nil
+    print(string.match(tostring(win:screen()), "S27R65") ~= nil)
+    return string.match(tostring(win:screen()), "S27R65") ~= nil
 end
 function isMonitoriPad()
     local win = hs.window.focusedWindow()
@@ -403,7 +403,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
     local max = screen:frame()
     f.x = max.x
     f.y = max.y
-    f.w = max.w / (isMonitorAcer() and 2 or 3)
+    f.w = max.w / (isMonitorS27R65() and 2 or 3)
     f.h = max.h
     win:setFrame(f)
 end)
@@ -414,10 +414,34 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
     local f = win:frame()
     local screen = win:screen()
     local max = screen:frame()
-    f.x = max.x + max.w / (isMonitorAcer() and 2 or 3)
+    f.x = max.x + max.w / (isMonitorS27R65() and 2 or 3)
     f.y = max.y
-    f.w = (isMonitorAcer() and 1 or 2) * max.w / (isMonitorAcer() and 2 or 3)
+    f.w = (isMonitorS27R65() and 1 or 2) * max.w / (isMonitorS27R65() and 2 or 3)
     f.h = max.h
+    win:setFrame(f)
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Up", function()
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+    f.x = max.x
+    f.y = max.y / 2
+    f.w = max.w
+    f.h = max.h / 2
+    win:setFrame(f)
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Down", function()
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+    f.x = max.x
+    f.y = max.y / 2  + max.h / 2 + 10
+    f.w = max.w
+    f.h = max.h / 2
     win:setFrame(f)
 end)
 
@@ -441,7 +465,7 @@ hs.hotkey.bind({'alt', 'ctrl', 'cmd'}, 'n', function()
     local win = hs.window.focusedWindow()
     -- get the screen where the focused window is displayed, a.k.a. current screen
     local screen = win:screen()
-    print("1111111", isMonitorAcer())
+    print("1111111", isMonitorS27R65())
     -- compute the unitRect of the focused window relative to the current screen
     -- and move the window to the next screen setting the same unitRect
     win:move(win:frame():toUnitRect(screen:frame()), screen:next(), true, 0)
