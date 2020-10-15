@@ -439,7 +439,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Down", function()
     local screen = win:screen()
     local max = screen:frame()
     f.x = max.x
-    f.y = max.y / 2  + max.h / 2 + 10
+    f.y = max.y / 2  + max.h / 2
     f.w = max.w
     f.h = max.h / 2
     win:setFrame(f)
